@@ -1,0 +1,139 @@
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Area Coverage Flight Path Generator</title>
+    <link rel="stylesheet" type="text/css" href="coverage.css">
+</head>
+
+<body>
+
+    <div class="box">
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <form id="myForm">
+                    <label for="agents">Number of Agents</label><br>
+                    <input type="number" id="agents" name="agents" min="1" max="5" value="2"><br><br>
+                    <label for="lat">Latitude</label><br>
+                    <input type="number" id="lat" name="lat" step="0.000000000000001"
+                        value="-7.915972873102972"><br><br>
+                    <label for="lon">Longitude</label><br>
+                    <input type="number" id="lon" name="lon" step="0.000000000000001" value="110.56066997979453">
+                    <br>
+                    <br>
+                    <input type="submit" value="Ok" style="margin-left: 80%;">
+                </form>
+            </div>
+        </div>
+        <div class="row header">
+            <center>
+                <div class="container">
+                    <div class="selection">
+
+                        <script>
+
+                        </script>
+
+                        <select id="agentSelect"></select>
+
+                    </div>
+                    <div id="settings">
+                        <table>
+                            <tr>
+                                <td rowspan="2">
+
+                                    Entry angle: <input type="text" name="angle" id="angle" size="3" value="0"
+                                        oninput="queueAreaReset(agentIndex)"> (0-360 degrees)<br>
+                                    First turn: <select name="turn" id="turn" onchange="queueAreaReset(agentIndex)">
+                                        <option value="1">Right</option>
+                                        <option value="0">Left</option>
+                                    </select><br>
+                                    Row separation: <input type="text" name="separation" id="separation" size="3"
+                                        value="20" oninput="queueAreaReset(agentIndex)"> meters<br>
+                                    Altitude: <input type="text" name="altitude" id="altitude" size="3" value="130">
+                                    meters<br>
+                                </td>
+                                <td rowspan="2" id="pointstd0" style="width: 240pt;">
+                                    Area points:&nbsp;
+                                    <!-- <button onclick="recenterView(agentIndex)">Fit view to area</button>&nbsp;
+                                    <button onclick="recenterArea(agentIndex)">Fit area to view</button>&nbsp; -->
+                                    <textarea rows="5" cols="4" name="points" id="points"
+                                        oninput="queueAreaReset(agentIndex)" style="width: 100%;"></textarea>
+                                    <div id="feedback" class="feedback"></div>
+                                </td>
+                                <td rowspan="2">
+                                    Path length: <span id="pathlength"></span><br>
+                                    Flight speed: <input type="text" name="speed" id="speed" size="3" value="6"
+                                        oninput="queueAreaReset(agentIndex)"> meters/sec<br>
+                                    Turn time: <input type="text" name="turntime" id="turntime" size="3" value="4"
+                                        oninput="queueAreaReset(agentIndex)"> sec<br>
+                                    Estimated time: <span id="esttime"></span><br>
+                                    Efficiency: <span id="efficiency"></span><br>
+                                </td>
+                                <td>
+                                    <table class="colortable">
+                                        <tr>
+                                            <td id="color0" onclick="changeColor(agentIndex, 0)"></td>
+                                            <td id="color1" onclick="changeColor(agentIndex, 1)"></td>
+                                            <td id="color2" onclick="changeColor(agentIndex, 2)"></td>
+                                            <td id="color3" onclick="changeColor(agentIndex, 3)"></td>
+                                            <td id="color4" onclick="changeColor(agentIndex, 4)"></td>
+                                            <td id="color5" onclick="changeColor(agentIndex, 5)"></td>
+                                            <td id="color6" onclick="changeColor(agentIndex, 6)"></td>
+                                            <td id="color7" onclick="changeColor(agentIndex, 7)"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--<button onclick="updateFlightPath()">Generate path</button><br>-->
+                                    Total waypoints: <span id="totalwaypoints"></span><br>
+                                    <select id="formatSelect" style="margin-top: 5px; margin-bottom: 5px;">
+                                        <Option class="selectFormat" value="0">XML</Option>
+                                        <Option class="selectFormat" value="1">Mission Planner</Option>
+                                        <Option class="selectFormat" value="2">QGround</Option>
+                                    </select>
+                                    <br>
+
+                                    <script>
+                                        const formatSelect = document.getElementById('formatSelect');
+                                        let formatIndex = 0;
+
+                                        formatSelect.addEventListener('change', () => {
+                                            formatIndex = formatSelect.selectedIndex;
+                                        });
+                                    </script>
+                                    <!-- Filename: <input type="text" name="filename" id="filename" size="10" value=""><br> -->
+                                    <button onclick="downloadMission(formatIndex)">Download mission file</button><br>
+                                    <!-- <div id="feedback2" class="feedback"></div> -->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <div id="mapcontainer" class="row content">
+            <div id="map"></div>
+        </div>
+    </div>
+    <script src="jquery-1.11.2.min.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyCPS20NagOhZRkVhyyNchxO6DkZ3zBq9Fg"></script>
+    <script src="DeleteMenu.js"></script>
+    <!-- <script>
+        var startLat = -7.915972873102972;
+        var startLng = 110.56066997979453;
+        var numAgents = 4;
+    </script> -->
+    <!-- <script src="script.js"></script> -->
+    <script src="generate.js"></script>
+    <script src="coverage.js"></script>
+</body>
+
+</html>
