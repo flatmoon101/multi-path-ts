@@ -51,7 +51,6 @@ function isEqual(v0: Vector, v1: Vector): boolean {
     return v0.x == v1.x && v0.y == v1.y;
 }
 
-// Placeholder for the linesCross function
 function linesCross(v0: Point, v1: Point, t0: Point, t1: Point): LineIntersection | null {
     if (isEqual(v1, t0) ||
         isEqual(v0, t0) ||
@@ -111,7 +110,6 @@ function generateFlightPath(
         perpVec = negate(perpVec);
     }
 
-    // find extents in parallel and perp directions
     let minParallel = 0, maxParallel = 0, minPerp = 0, maxPerp = 0;
     let minParallelInd = 0, maxParallelInd = 0, minPerpInd = 0, maxPerpInd = 0;
     for (let i = 0; i < points.length; i++) {
@@ -228,7 +226,6 @@ function generateFlightPath(
         if (closestHit) row.start = closestHit;
         if (furthestHit) row.end = furthestHit;
         if (i % 2 === 1) {
-            // swap start and end for every second row
             const tmpX = row.start.x;
             row.start.x = row.end.x;
             row.end.x = tmpX;

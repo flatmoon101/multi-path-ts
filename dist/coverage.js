@@ -1,10 +1,7 @@
 "use strict";
 // Import Google Maps types
 /// <reference types="@types/google.maps" />
-let map = new google.maps.Map(document.getElementById('map'), {
-    center: new google.maps.LatLng(-7.915972873102972, 110.56066997979453),
-    mapTypeId: 'hybrid',
-});
+let map;
 let infoWindow;
 let flightArea = [];
 const colors = ["#FF0000", "#00FF00", "#0000FF", "#00FFFF", "#FF00FF", "#FFFF00", "#FFFFFF", "#000000"];
@@ -20,7 +17,6 @@ let altitude = [];
 let agentIndex = 0;
 let numAgents = 0;
 let deleteMenu;
-// Helper functions
 function pad(n, width, z) {
     z = z || '0';
     const nString = n.toString();
@@ -343,6 +339,10 @@ function initColor() {
     for (let i = 0; i < colors.length; i++) {
         $("#color" + i).css("background-color", colors[i]);
     }
+}
+function changeColor(agent, i) {
+    rowLineColor[agent] = colors[i];
+    drawFlightPath(agent);
 }
 initColor();
 initMap();

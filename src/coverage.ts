@@ -11,16 +11,7 @@ interface Point {
     x: number;
 }
 
-interface RowEnd {
-    start: Point;
-    end: Point;
-}
-
-let map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    center: new google.maps.LatLng(-7.915972873102972, 110.56066997979453),
-    mapTypeId: 'hybrid',
-});
-
+let map: google.maps.Map;
 let infoWindow: google.maps.InfoWindow | undefined;
 let flightArea: google.maps.Polygon[] = [];
 const colors = ["#FF0000", "#00FF00", "#0000FF", "#00FFFF", "#FF00FF", "#FFFF00", "#FFFFFF", "#000000"];
@@ -37,7 +28,6 @@ let agentIndex = 0;
 let numAgents = 0;
 let deleteMenu: DeleteMenu | undefined;
 
-// Helper functions
 function pad(n: number, width: number, z?: string): string {
     z = z || '0';
     const nString = n.toString();
