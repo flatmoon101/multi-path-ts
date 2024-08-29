@@ -29,6 +29,26 @@
                 </form>
             </div>
         </div>
+
+        <div id="showData" class="modal-2">
+            <div class="waypoints-content">
+                <span class="close">&times;</span>
+                <h4>Waypoints</h4>
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Altitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Baris data akan dimasukkan di sini oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="row header">
             <center>
                 <div class="container">
@@ -54,8 +74,9 @@
                                     </select><br>
                                     Row separation: <input type="text" name="separation" id="separation" size="3"
                                         value="20" oninput="queueAreaReset(agentIndex)"> meters<br>
-                                    Altitude: <input type="text" name="altitude" id="altitude" size="3" value="130">
-                                    meters<br>
+                                    Altitude: <input type="text" name="altitude" id="altitude" size="3" value="130" 
+                                        oninput="queueAreaReset(agentIndex)"> meters
+                                    <br>
                                 </td>
                                 <td rowspan="2" id="pointstd0" style="width: 240pt;">
                                     Area points:&nbsp;
@@ -91,14 +112,14 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <!--<button onclick="updateFlightPath()">Generate path</button><br>-->
+                                    <!-- <button onclick="updateFlightPath()">Generate path</button><br> -->
                                     Total waypoints: <span id="totalwaypoints"></span><br>
-                                    <select id="formatSelect" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <!-- <select id="formatSelect" style="margin-top: 5px; margin-bottom: 5px;">
                                         <Option class="selectFormat" value="0">XML</Option>
                                         <Option class="selectFormat" value="1">Mission Planner</Option>
                                         <Option class="selectFormat" value="2">QGround</Option>
                                     </select>
-                                    <br>
+                                    <br> -->
 
                                     <script>
                                         const formatSelect = document.getElementById('formatSelect');
@@ -109,7 +130,8 @@
                                         });
                                     </script>
                                     <!-- Filename: <input type="text" name="filename" id="filename" size="10" value=""><br> -->
-                                    <button onclick="downloadMission(formatIndex)">Download mission file</button><br>
+                                    <!-- <button onclick="downloadMission(formatIndex)">Download mission file</button><br> -->
+                                    <button id="btn-waypoints" onclick="showWaypoints(agentIndex)">Show Waypoints</button><br>
                                     <!-- <div id="feedback2" class="feedback"></div> -->
                                 </td>
                             </tr>

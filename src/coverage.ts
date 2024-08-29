@@ -34,6 +34,53 @@ function pad(n: number, width: number, z?: string): string {
     return nString.length >= width ? nString : new Array(width - nString.length + 1).join(z) + nString;
 }
 
+function showWaypoints(agent: number): void {
+    const dataList: number[][] = [];
+
+    for (let i = 0; i < rowEnds[agent].length; i++) {
+        const row = rowEnds[agent][i];
+
+        dataList.push([2*i + 1, row.start.y, row.start.x, altitude[agent]]);
+        dataList.push([2*i + 2, row.end.y, row.end.x, altitude[agent]]);
+    }
+
+    const modal = document.getElementById('showData') as HTMLDivElement;
+    const btn = document.getElementById('btn-waypoints') as HTMLButtonElement;
+    const span = document.getElementsByClassName('close')[0] as HTMLSpanElement;
+    const tableBody = document.getElementById('dataTable')?.getElementsByTagName('tbody')[0] as HTMLTableSectionElement;
+
+    function populateTable(): void {
+        if(!tableBody) return;
+
+        tableBody.innerHTML = '';
+
+        dataList.forEach((rowData: number[]) => {
+            const row = document.createElement('tr');
+    
+            rowData.forEach((cellData: number) => {
+                const cell = document.createElement('td');
+                cell.textContent = cellData.toString();
+                row.appendChild(cell);
+            });
+    
+            tableBody.appendChild(row);
+        });
+    }
+
+    // btn.onclick = function(): void {
+    populateTable();
+    modal.style.display = 'block';
+    // }
+
+    span.onclick = function(): void {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event: MouseEvent): void {
+        if(event.target === modal) modal.style.display = 'None';
+    }
+}
+
 function addAgentSelectEvent(): void {
     const agentSelect = document.getElementById('agentSelect') as HTMLSelectElement;
     agentSelect.addEventListener('change', () => {
@@ -50,7 +97,7 @@ function addAgentSelectEvent(): void {
             (document.getElementById('altitude') as HTMLInputElement).value = altitude[agentIndex].toString();
         }
 
-        window.onload = setInputValue;
+        window.onload = setInputValue() as any;
     });
 }
 
@@ -294,6 +341,7 @@ function updateFlightPath(agent: number): void {
     let angle: number = parseFloat($(`#angle`).val() as string);
     const turn: number = firstTurn[agent] = parseInt($(`#turn`).val() as string);
     const separation: number = rowSeparation[agent] = parseFloat($(`#separation`).val() as string);
+    altitude[agent] = parseInt($(`#altitude`).val() as string)
 
     while (angle > 360) {
         angle -= 360;

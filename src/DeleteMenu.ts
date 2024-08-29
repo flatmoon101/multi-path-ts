@@ -84,8 +84,8 @@ class DeleteMenu extends google.maps.OverlayView {
 
         path.removeAt(vertex);
         this.close();
-        queuePointsAreaUpdate(0);
-        queuePointsAreaUpdate(1);
-        queuePointsAreaUpdate(2);
+        for(let i = 0; i < numAgents; i++) {
+            queuePointsAreaUpdate(i);
+        }
     }
 }

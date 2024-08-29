@@ -22,6 +22,44 @@ function pad(n, width, z) {
     const nString = n.toString();
     return nString.length >= width ? nString : new Array(width - nString.length + 1).join(z) + nString;
 }
+function showWaypoints(agent) {
+    var _a;
+    const dataList = [];
+    for (let i = 0; i < rowEnds[agent].length; i++) {
+        const row = rowEnds[agent][i];
+        dataList.push([2 * i + 1, row.start.y, row.start.x, altitude[agent]]);
+        dataList.push([2 * i + 2, row.end.y, row.end.x, altitude[agent]]);
+    }
+    const modal = document.getElementById('showData');
+    const btn = document.getElementById('btn-waypoints');
+    const span = document.getElementsByClassName('close')[0];
+    const tableBody = (_a = document.getElementById('dataTable')) === null || _a === void 0 ? void 0 : _a.getElementsByTagName('tbody')[0];
+    function populateTable() {
+        if (!tableBody)
+            return;
+        tableBody.innerHTML = '';
+        dataList.forEach((rowData) => {
+            const row = document.createElement('tr');
+            rowData.forEach((cellData) => {
+                const cell = document.createElement('td');
+                cell.textContent = cellData.toString();
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+    }
+    // btn.onclick = function(): void {
+    populateTable();
+    modal.style.display = 'block';
+    // }
+    span.onclick = function () {
+        modal.style.display = 'none';
+    };
+    window.onclick = function (event) {
+        if (event.target === modal)
+            modal.style.display = 'None';
+    };
+}
 function addAgentSelectEvent() {
     const agentSelect = document.getElementById('agentSelect');
     agentSelect.addEventListener('change', () => {
@@ -36,7 +74,7 @@ function addAgentSelectEvent() {
             document.getElementById('separation').value = rowSeparation[agentIndex].toString();
             document.getElementById('altitude').value = altitude[agentIndex].toString();
         }
-        window.onload = setInputValue;
+        window.onload = setInputValue();
     });
 }
 function initAgents(numAgents) {
@@ -245,6 +283,7 @@ function updateFlightPath(agent) {
     let angle = parseFloat($(`#angle`).val());
     const turn = firstTurn[agent] = parseInt($(`#turn`).val());
     const separation = rowSeparation[agent] = parseFloat($(`#separation`).val());
+    altitude[agent] = parseInt($(`#altitude`).val());
     while (angle > 360) {
         angle -= 360;
     }
